@@ -1,0 +1,62 @@
+{
+  "name": "@satuchain/radar-sdk",
+  "version": "1.0.0",
+  "description": "Official JavaScript/TypeScript SDK for SatuDex Radar API — token prices, pairs, candles, trades",
+  "keywords": [
+    "satuchain",
+    "satudex",
+    "radar",
+    "dex",
+    "defi",
+    "crypto",
+    "sdk",
+    "api",
+    "bnb",
+    "bsc",
+    "candles",
+    "ohlcv"
+  ],
+  "author": "SATU TEAM <dev@satuchain.com>",
+  "license": "MIT",
+  "homepage": "https://radar.satudex.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/satuchain/radar-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/satuchain/radar-sdk/issues"
+  },
+  "type": "module",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "npm run build:esm && npm run build:cjs && npm run build:types",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json && node scripts/rename-cjs.mjs",
+    "build:types": "tsc -p tsconfig.types.json",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  }
+}
