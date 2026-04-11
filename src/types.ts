@@ -103,7 +103,7 @@ export interface TokensListOptions extends RequestOptions {
   sort?: SortKey;
   /** Search query — symbol, name, or address */
   q?: string;
-  /** Chain ID (17081945 = SATU Testnet, 56 = BNB Chain) */
+  /** Chain ID (10111945 = SATU Mainnet, 17081945 = SATU Testnet, 56 = BNB Chain) */
   chainId?: number;
   /** Filter by DEX ID (e.g. "pancakeswap", "biswap") */
   dex?: string;
@@ -170,7 +170,7 @@ export interface TradesOptions extends RequestOptions {
 
 // ─── Candles ─────────────────────────────────────────────────────────────────
 
-export type Timeframe = "1m" | "5m" | "1h" | "4h" | "1d";
+export type Timeframe = "1m" | "5m" | "15m" | "1h" | "4h" | "1d";
 
 export interface Candle {
   time: number;

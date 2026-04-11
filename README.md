@@ -1,6 +1,6 @@
 # @satuchain/radar-sdk
 
-Official JavaScript/TypeScript SDK for the **SatuDex Radar API** — real-time token prices, DEX pairs, OHLCV candles, and trades on SATUCHAIN and BNB Chain.
+Official JavaScript/TypeScript SDK for the **SatuDex Radar API** — real-time token prices, DEX pairs, OHLCV candles, and trades on **SatuChain Mainnet**, SatuChain Testnet, and BNB Chain.
 
 [![npm version](https://img.shields.io/npm/v/@satuchain/radar-sdk)](https://www.npmjs.com/package/@satuchain/radar-sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -8,7 +8,7 @@ Official JavaScript/TypeScript SDK for the **SatuDex Radar API** — real-time t
 ## Requirements
 
 - An API key from [radar.satudex.com/account](https://radar.satudex.com/account)
-- Hold ≥ **10,000 STU** on BNB Chain to generate a key
+- Hold ≥ **10,000 STU** on SatuChain Mainnet or BNB Chain to generate a key
 - Node.js ≥ 18 (or any modern browser / edge runtime)
 
 ## Installation
@@ -24,8 +24,8 @@ import { RadarClient } from "@satuchain/radar-sdk";
 
 const radar = new RadarClient("sk-satu-your-api-key");
 
-// List trending tokens on BNB Chain
-const { data: tokens } = await radar.getTokens({ sort: "trending", chainId: 56 });
+// List trending tokens on SatuChain Mainnet
+const { data: tokens } = await radar.getTokens({ sort: "trending", chainId: 10111945 });
 for (const t of tokens) {
   const icon = radar.iconUrl(t.token.image); // full URL to token logo
   console.log(t.token.symbol, t.price, icon);
@@ -94,7 +94,7 @@ for (const t of tokens) {
 | `getToken(address, opts?)` | Single token detail + all pairs |
 | `getPairs(opts?)` | List all trading pairs (paginated) |
 | `getTrades(pairAddress, opts?)` | Recent trades for a pair |
-| `getCandles(pairAddress, opts?)` | OHLCV candles (1m/5m/1h/4h/1d) |
+| `getCandles(pairAddress, opts?)` | OHLCV candles (1m/5m/15m/1h/4h/1d) |
 | `getPrice(tokenAddress, opts?)` | Current USD price for a token |
 | `iconUrl(relativePath)` | Convert relative image path → full URL |
 
@@ -113,12 +113,15 @@ for (const t of tokens) {
 
 | Chain | ID |
 |-------|----|
+| SATU Mainnet | `10111945` |
 | SATU Testnet | `17081945` |
 | BNB Chain | `56` |
 
-### DEX IDs (BNB Chain)
+### DEX IDs
 
-`pancakeswap` · `biswap` · `apeswap` · `sushiswap` · `four.meme` · `uniswap`
+**SatuChain:** `satuswap`
+
+**BNB Chain:** `pancakeswap` · `biswap` · `apeswap` · `sushiswap` · `four.meme` · `uniswap`
 
 ## Error Handling
 

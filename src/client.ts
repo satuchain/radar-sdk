@@ -24,7 +24,7 @@ import {
 const DEFAULT_BASE_URL = "https://radar.satudex.com/api/v1";
 const HOST_URL        = "https://radar.satudex.com";
 const DEFAULT_TIMEOUT = 10_000;
-const SDK_VERSION     = "1.0.0";
+const SDK_VERSION     = "1.1.0";
 
 export class RadarClient {
   private readonly apiKey: string;
