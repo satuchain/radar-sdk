@@ -96,7 +96,58 @@ for (const t of tokens) {
 | `getTrades(pairAddress, opts?)` | Recent trades for a pair |
 | `getCandles(pairAddress, opts?)` | OHLCV candles (1m/5m/15m/1h/4h/1d) |
 | `getPrice(tokenAddress, opts?)` | Current USD price for a token |
+| `getPolicy(address, opts?)` | LP burn+lock secured check (Golden Tick gate) — **new in 1.2** |
+| `getProfile(address, opts?)` | Read existing token profile data — **new in 1.2** |
+| `getHolders(address, opts?)` | Top token holders sorted by balance — **new in 1.2** |
+| `getBoost(address, opts?)` | Boost score, bomb status, verified flag — **new in 1.2** |
+| `getUserSubmissions(wallet, opts?)` | Profiles submitted by a wallet — **new in 1.2** |
 | `iconUrl(relativePath)` | Convert relative image path → full URL |
+
+### Public sub-namespace (no API key required)
+
+`radar.public.*` exposes endpoints that bypass API-key auth — designed for
+external bots (Trending Bot, Buy Bot) and unauthenticated client widgets.
+Subject to the global anonymous rate limit (60 req/min/IP).
+
+| Method | Description |
+|--------|-------------|
+| `radar.public.getTrending(opts?)` | Top tokens by boost score with rank |
+| `radar.public.getToken(address, opts?)` | Read-only token detail + verified + socials |
+| `radar.public.getRecentAnnouncements(opts?)` | Recent Golden Tick verified tokens |
+| `radar.public.getBoost(tokenAddress, opts?)` | Single token boost detail + leaderboard rank |
+
+```js
+// Public endpoints work even without a real API key (the constructor still
+// requires one as a placeholder — pass any sk-satu-... string).
+const { data: trending } = await radar.public.getTrending({
+  chain: "satumainnet",
+  limit: 10,
+});
+for (const t of trending) {
+  console.log(`#${t.rank}`, t.symbol, "boost:", t.boostScore);
+}
+```
+
+### Token-profile flow example
+
+```js
+// 1. Check eligibility before submitting
+const { data: policy } = await radar.getPolicy("0xADDR", { chain: "satumainnet" });
+if (!policy.eligible) {
+  console.log("Not eligible:", policy.lpStatus?.securedSupplyPct, "% secured (need 80%)");
+  return;
+}
+
+// 2. Read existing profile (for prefill on resubmit)
+const { data: profile } = await radar.getProfile("0xADDR", { chain: "satumainnet" });
+if (profile) {
+  // pre-fill description, telegram, x, website, ...
+}
+
+// 3. After submit, track status across all your tokens
+const { data: subs } = await radar.getUserSubmissions("0xWALLET");
+for (const s of subs) console.log(s.symbol, s.status, s.verified ? "✓ Golden Tick" : "");
+```
 
 ### Sort Keys (`getTokens`)
 
@@ -155,7 +206,8 @@ try {
 
 | Tier | Min. Hold | Limit |
 |------|-----------|-------|
-| Basic | 10,000 STU | 300 req/min |
+| Anonymous (no API key, public endpoints only) | — | 60 req/min/IP |
+| Basic | 10,000 STU on SatuChain Mainnet **or** BNB Chain | 300 req/min |
 | Pro | 1,000,000 STU | 3,000 req/min |
 
 Check remaining quota via `radar.rateLimit` after any request.

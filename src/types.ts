@@ -204,3 +204,225 @@ export interface PriceResponse {
     pairAddress: string | null;
   };
 }
+
+// ─── Policy (LP burn + lock check, used by token-profile submit gate) ───────
+
+export interface LpStatus {
+  pairAddress: string;
+  burnedSupplyPct: number;
+  lockedSupplyPct: number;
+  /** burned + locked combined */
+  securedSupplyPct: number;
+  burnedLpUsd: number;
+  lockedLpUsd: number;
+  isBurned: boolean;
+  isLocked: boolean;
+  /** true when securedSupplyPct ≥ minSecuredPct (default 80) */
+  isSecured: boolean;
+}
+
+export interface PolicyResponse {
+  ok: true;
+  data: {
+    chainId: number;
+    chainKey: string;
+    token: string;
+    enforced: boolean;
+    eligible: boolean;
+    liquidityUsd: number;
+    lpStatus: LpStatus | null;
+    minLiquidityUsd: number;
+    minSecuredPct: number;
+    reason?: string;
+  };
+}
+
+export interface PolicyOptions extends RequestOptions {
+  /** Chain key — e.g. "satumainnet" (default), "satutestnet", "bsc" */
+  chain?: string;
+}
+
+// ─── Token Profile (existing profile data — used for prefill UIs) ───────────
+
+export interface TokenProfile {
+  chainId: number;
+  address: string;
+  aboutToken: string | null;
+  description: string | null;
+  telegram: string | null;
+  x: string | null;
+  website: string | null;
+  whitepaper: string | null;
+  image: string | null;
+  banner: string | null;
+  status: "pending" | "approved" | "rejected";
+  verified: boolean;
+}
+
+export interface ProfileResponse {
+  ok: true;
+  data: TokenProfile | null;
+}
+
+export interface ProfileOptions extends RequestOptions {
+  chain?: string;
+}
+
+// ─── Holders ─────────────────────────────────────────────────────────────────
+
+export interface Holder {
+  address: string;
+  /** Raw token amount as decimal string */
+  value: string;
+  /** % of total supply */
+  share: number;
+}
+
+export interface HoldersResponse {
+  ok: true;
+  data: Holder[];
+}
+
+export interface HoldersOptions extends RequestOptions {
+  chain?: string;
+}
+
+// ─── Boost ───────────────────────────────────────────────────────────────────
+
+export interface BoostInfo {
+  score: number;
+  hasBomb: boolean;
+  bombExpiresAt: string | null;
+  maxScore: number;
+  verified: boolean;
+  verifiedAt: string | null;
+  featured: boolean;
+}
+
+export interface BoostResponse {
+  ok: true;
+  data: BoostInfo;
+}
+
+// ─── User Submissions ───────────────────────────────────────────────────────
+
+export interface UserSubmission {
+  id: string;
+  chainId: number;
+  address: string;
+  name: string | null;
+  symbol: string | null;
+  status: "pending" | "approved" | "rejected";
+  verified: boolean;
+  verifiedAt: string | null;
+  reviewedAt: string | null;
+  reviewNote: string | null;
+  image: string | null;
+  banner: string | null;
+  description: string | null;
+  website: string | null;
+  x: string | null;
+  telegram: string | null;
+  submittedAt: string;
+  updatedAt: string;
+}
+
+export interface UserSubmissionsResponse {
+  ok: true;
+  data: UserSubmission[];
+}
+
+export interface UserSubmissionsOptions extends RequestOptions {
+  chain?: string;
+}
+
+// ─── Public bot endpoints (no API key required) ─────────────────────────────
+
+export interface PublicTrendingItem {
+  rank: number;
+  address: string;
+  symbol: string | null;
+  name: string | null;
+  chainId: number;
+  txns24h: number;
+  boostScore: number;
+  hasBomb: boolean;
+  featured: boolean;
+  verified: boolean;
+  verifiedAt: string | null;
+  pairAddress: string | null;
+  logoUrl: string | null;
+  radarUrl: string | null;
+}
+
+export interface PublicTrendingResponse {
+  ok: true;
+  data: PublicTrendingItem[];
+}
+
+export interface PublicTrendingOptions extends RequestOptions {
+  chain?: string;
+  limit?: number;
+}
+
+export interface PublicTokenInfo {
+  address: string;
+  symbol: string | null;
+  name: string | null;
+  decimals: number | null;
+  totalSupply: string | null;
+  chainId: number;
+  hidden: boolean;
+  verified: boolean;
+  verifiedAt: string | null;
+  featured: boolean;
+  profile: TokenProfile | null;
+}
+
+export interface PublicTokenResponse {
+  ok: true;
+  data: PublicTokenInfo;
+}
+
+export interface PublicTokenOptions extends RequestOptions {
+  chain?: string;
+}
+
+export interface PublicAnnouncement {
+  address: string;
+  symbol: string | null;
+  name: string | null;
+  chainId: number;
+  verifiedAt: string | null;
+  message: string;
+  pairAddress: string | null;
+  logoUrl: string | null;
+  radarUrl: string | null;
+}
+
+export interface PublicAnnouncementsResponse {
+  ok: true;
+  data: PublicAnnouncement[];
+}
+
+export interface PublicAnnouncementsOptions extends RequestOptions {
+  chain?: string;
+  limit?: number;
+}
+
+export interface PublicBoostResponse {
+  ok: true;
+  data: {
+    address: string;
+    score: number;
+    rank: number | null;
+    hasBomb: boolean;
+    bombExpiresAt: string | null;
+    verified: boolean;
+    featured: boolean;
+  };
+}
+
+export interface PublicBoostOptions extends RequestOptions {
+  chain?: string;
+}
