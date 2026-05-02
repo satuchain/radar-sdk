@@ -15,7 +15,7 @@ export class RadarAuthError extends RadarError {
 
 export class RadarForbiddenError extends RadarError {
   readonly status = 403;
-  constructor(message = "API key inactive: insufficient STU balance (need ≥ 10,000 STU on BNB Chain)") {
+  constructor(message = "API key inactive: insufficient STU balance (need ≥ 100,000 STU on SatuChain Mainnet or BNB Chain)") {
     super(message);
     this.name = "RadarForbiddenError";
   }

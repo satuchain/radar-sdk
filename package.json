@@ -1,6 +1,6 @@
 {
   "name": "@satuchain/radar-sdk",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Official JavaScript/TypeScript SDK for SatuDex Radar API — token prices, pairs, candles, trades on SatuChain Mainnet & BNB Chain",
   "keywords": [
     "satuchain",

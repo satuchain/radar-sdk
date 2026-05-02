@@ -8,7 +8,7 @@ Official JavaScript/TypeScript SDK for the **SatuDex Radar API** — real-time t
 ## Requirements
 
 - An API key from [radar.satudex.com/account](https://radar.satudex.com/account)
-- Hold ≥ **10,000 STU** on SatuChain Mainnet or BNB Chain to generate a key
+- Hold ≥ **100,000 STU** on SatuChain Mainnet or BNB Chain to generate a key
 - Node.js ≥ 18 (or any modern browser / edge runtime)
 
 ## Installation
@@ -207,7 +207,7 @@ try {
 | Tier | Min. Hold | Limit |
 |------|-----------|-------|
 | Anonymous (no API key, public endpoints only) | — | 60 req/min/IP |
-| Basic | 10,000 STU on SatuChain Mainnet **or** BNB Chain | 300 req/min |
+| Basic | 100,000 STU on SatuChain Mainnet **or** BNB Chain | 300 req/min |
 | Pro | 1,000,000 STU | 3,000 req/min |
 
 Check remaining quota via `radar.rateLimit` after any request.
